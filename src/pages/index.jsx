@@ -1,8 +1,16 @@
-import axios from "axios";
-import { useLoaderData, Link } from "react-router-dom";
+import { Link, useOutletContext, useNavigation } from "react-router-dom";
 
 export default function Root() {
-  const data = useLoaderData();
+  const data = useOutletContext();
+  const navigation = useNavigation();
+
+  if (navigation.state === "loading") {
+    return (
+      <div className="w-screen h-screen flex justify-center items-center">
+        <img className="w-12 h-12" src="https://i.gifer.com/ZKZg.gif" alt="loading gif" />
+      </div>
+    );
+  }
   return (
     <>
       <div className="flex flex-col items-center">
@@ -32,10 +40,3 @@ export default function Root() {
     </>
   );
 }
-
-export const Loader = async () => {
-  console.log("Entered route");
-  let res = await axios.get(`https://jsonplaceholder.typicode.com/posts`);
-  let data = res.data;
-  return data;
-};

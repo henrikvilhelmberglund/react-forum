@@ -1,10 +1,30 @@
 import { Link } from "react-router-dom";
-import { useLoaderData } from "react-router-dom";
+import {
+  useOutletContext,
+  useParams,
+  useLoaderData,
+  useNavigation,
+} from "react-router-dom";
+import axios from "axios";
 
 export default function PostID() {
-  let { post, user } = useLoaderData();
-  let { title, body, userId } = post;
-  let { username } = user;
+  const data = useOutletContext();
+  const userData = useLoaderData();
+  const params = useParams();
+  const navigation = useNavigation();
+
+  if (navigation.state === "loading") {
+    return (
+      <div className="w-screen h-screen flex justify-center items-center">
+        <img className="w-12 h-12" src="https://i.gifer.com/ZKZg.gif" alt="loading gif" />
+      </div>
+    );
+  }
+
+  let postId = parseInt(params.postID);
+  const { title, body, userId } = data.find((post) => post.id === postId);
+  const username = userData.username;
+
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="mb-8">
@@ -19,7 +39,7 @@ export default function PostID() {
         <h1 className="text-3xl">{title}</h1>
         <p className="pt-4 text-lg">{body}</p>
         <div className="w-full flex justify-center">
-          <Link className="bg-blue-300 p-2 rounded" to={`/user/${userId}`}>
+          <Link className="bg-blue-300 p-2 rounded" to={`/profile/${userId}`}>
             User: {username} (id {userId})
           </Link>
         </div>
@@ -31,14 +51,14 @@ export default function PostID() {
 
 export const Loader = async ({ params }) => {
   console.log("Entered post id route");
-  let response = await fetch(
+  let postRes = await axios.get(
     `https://jsonplaceholder.typicode.com/posts/${params.postID}`
   );
-  let postData = await response.json();
+  let postData = postRes.data;
 
-  response = await fetch(`https://jsonplaceholder.typicode.com/users/${postData.userId}`);
-  let userData = await response.json();
-  console.log(postData);
-  console.log(userData);
-  return { post: postData, user: userData };
+  const userRes = await axios.get(
+    `https://jsonplaceholder.typicode.com/users/${postData.userId}`
+  );
+  let userData = userRes.data;
+  return userData;
 };
