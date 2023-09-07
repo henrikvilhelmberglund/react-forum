@@ -6,7 +6,5 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { routes } from "generouted/react-router";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={createBrowserRouter(routes)} />
-  </React.StrictMode>
+  <RouterProvider router={createBrowserRouter(routes)} />
 );
