@@ -8,9 +8,9 @@ import {
 import axios from "axios";
 
 export default function PostID() {
-  const { usersData, postsData } = useOutletContext();
+  const { postsData } = useOutletContext();
   const { userData, commentsData } = useLoaderData();
-  console.log("HELLO", usersData);
+
   console.log("COMMENTS", commentsData);
   const params = useParams();
   const navigation = useNavigation();
@@ -53,24 +53,20 @@ export default function PostID() {
         <aside>
           <hr className="my-4 border border-solid border-black" />
           Comments
-          {commentsData.map(({ name, body, id }, i) => {
+          {commentsData.map(({ name, body, id, email }, i) => {
             {
-              const { name: commentsUsername, email: commentsEmail } =
-                usersData.find((user) => user.id === id);
               return (
                 <div key={i} className="bg-slate-300 rounded p-2 m-2">
                   <p className="text-3xl">{name}</p>
                   <p className="text-xl">{body}</p>
                   <p className="text-xl pt-4">
-                    by {commentsUsername}
-                    <span className="pl-2">
-                      (
+                    <span>
+                      by
                       <a
-                        className="text-blue-600"
-                        href={`mailto:${commentsEmail}`}>
-                        {commentsEmail}
+                        className="pl-1 text-blue-600"
+                        href={`mailto:${email}`}>
+                        {email}
                       </a>
-                      )
                     </span>
                   </p>
                   {/* by username (email) */}
