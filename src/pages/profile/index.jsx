@@ -1,3 +1,3 @@
 export default function Profile() {
-  return <>This is /profile</>;
+  return <></>;
 }
