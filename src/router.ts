@@ -11,10 +11,12 @@ export type Path =
   | `/profile`
   | `/profile/:userID`
   | `/route`
+  | `/route/:id`
 
 export type Params = {
   '/post/:postID': { postID: string }
   '/profile/:userID': { userID: string }
+  '/route/:id': { id: string }
 }
 
 export type ModalPath = never
