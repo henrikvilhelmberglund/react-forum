@@ -62,9 +62,18 @@ export default function PostID() {
                   <p className="text-3xl">{name}</p>
                   <p className="text-xl">{body}</p>
                   <p className="text-xl pt-4">
-                    by {commentsUsername} ({commentsEmail})
-                    {/* by username (email) */}
+                    by {commentsUsername}
+                    <span className="pl-2">
+                      (
+                      <a
+                        className="text-blue-600"
+                        href={`mailto:${commentsEmail}`}>
+                        {commentsEmail}
+                      </a>
+                      )
+                    </span>
                   </p>
+                  {/* by username (email) */}
                 </div>
               );
             }
