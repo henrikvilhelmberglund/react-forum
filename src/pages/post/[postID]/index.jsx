@@ -2,9 +2,10 @@ import { Link } from "react-router-dom";
 import { useLoaderData } from "react-router-dom";
 
 export default function PostID() {
-  let { post, user } = useLoaderData();
+  let { post, user, comments } = useLoaderData();
   let { title, body, userId } = post;
   let { username } = user;
+  // let { name: commentTitle, body: commentBody } = comments;
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="my-8">
@@ -22,6 +23,16 @@ export default function PostID() {
             User: {username} (id {userId})
           </Link>
         </div>
+        <aside>
+          <hr className="my-4 border border-solid border-black" />
+          Comments
+          {comments.map(({ title, body }) => (
+            <div className="bg-slate-300 rounded p-2 m-2">
+              <p className="text-3xl">{title}</p>
+              <p className="text-xl">{body}</p>
+            </div>
+          ))}
+        </aside>
       </div>
     </div>
   );
@@ -39,7 +50,13 @@ export const Loader = async ({ params }) => {
     `https://jsonplaceholder.typicode.com/users/${postData.userId}`
   );
   let userData = await response.json();
+
+  response = await fetch(
+    `https://jsonplaceholder.typicode.com/posts/${params.postID}/comments/`
+  );
+  let comments = await response.json();
   console.log(postData);
   console.log(userData);
-  return { post: postData, user: userData };
+  console.log(comments);
+  return { post: postData, user: userData, comments: comments };
 };
