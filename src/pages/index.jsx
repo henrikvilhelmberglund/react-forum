@@ -1,7 +1,7 @@
 import { Link, useOutletContext, useNavigation } from "react-router-dom";
 
 export default function Root() {
-  const data = useOutletContext();
+  const { postsData } = useOutletContext();
   const navigation = useNavigation();
 
   if (navigation.state === "loading") {
@@ -18,7 +18,7 @@ export default function Root() {
       </div>
       <div className="flex justify-center">
         <div>
-          {data.map((post) => (
+          {postsData.map((post) => (
             <div
               className="border-2 border-black p-2 m-4 shadow-md shadow-gray-400 rounded"
               key={post.id}
