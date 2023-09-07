@@ -1,25 +1,50 @@
 import { Link } from "react-router-dom";
-import { useLoaderData } from "react-router-dom";
+import {
+  useOutletContext,
+  useParams,
+  useLoaderData,
+  useNavigation,
+} from "react-router-dom";
+import axios from "axios";
 
 export default function PostID() {
-  let { post, user, comments } = useLoaderData();
-  let { title, body, userId } = post;
-  let { username, email } = user;
-  // let { name: commentTitle, body: commentBody } = comments;
+  const data = useOutletContext();
+  const userData = useLoaderData();
+  const params = useParams();
+  const navigation = useNavigation();
+
+  if (navigation.state === "loading") {
+    return (
+      <div className="w-screen h-screen flex justify-center items-center">
+        <img
+          className="w-12 h-12"
+          src="https://i.gifer.com/ZKZg.gif"
+          alt="loading gif"
+        />
+      </div>
+    );
+  }
+
+  let postId = parseInt(params.postID);
+  const { title, body, userId } = data.find((post) => post.id === postId);
+  const username = userData.username;
+
   return (
     <div className="flex flex-col items-center justify-center">
-      <div className="mb-8">
+      <div className="my-8">
         <Link
           className="bg-gray-500 hover:bg-gray-700 text-white font-semibold py-2 px-2 rounded"
           to={"/"}>
           Go Back
         </Link>
       </div>
-      <div className="bg-gray-200 w-1/2 p-2 shadow-md shadow-slate-400">
+      <div className="bg-gray-200 w-1/2 p-2 shadow-md shadow-slate-400 px-8 py-3">
         <h1 className="text-3xl">{title}</h1>
         <p className="pt-4 text-lg">{body}</p>
         <div className="w-full flex justify-center">
-          <Link className="bg-blue-300 p-2 rounded" to={`/profile/${userId}`}>
+          <Link
+            className="bg-blue-300 hover:bg-blue-400 p-2 rounded m-4"
+            to={`/profile/${userId}`}>
             User: {username} (id {userId})
           </Link>
         </div>
@@ -42,22 +67,18 @@ export default function PostID() {
 
 export const Loader = async ({ params }) => {
   console.log("Entered post id route");
-  let response = await fetch(
+  let postRes = await axios.get(
     `https://jsonplaceholder.typicode.com/posts/${params.postID}`
   );
-  let postData = await response.json();
+  let postData = postRes.data;
 
-  response = await fetch(
+  const userRes = await axios.get(
     `https://jsonplaceholder.typicode.com/users/${postData.userId}`
   );
-  let userData = await response.json();
-
-  response = await fetch(
+  let userData = userRes.data;
+  let commentsRes = await axios.get(
     `https://jsonplaceholder.typicode.com/posts/${params.postID}/comments/`
   );
-  let comments = await response.json();
-  console.log(postData);
-  console.log(userData);
-  console.log(comments);
-  return { post: postData, user: userData, comments: comments };
+  let commentsData = await commentsRes.data;
+  return commentsData;
 };
