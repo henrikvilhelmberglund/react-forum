@@ -4,7 +4,7 @@ import { useLoaderData } from "react-router-dom";
 export default function PostID() {
   let { post, user, comments } = useLoaderData();
   let { title, body, userId } = post;
-  let { username } = user;
+  let { username, email } = user;
   // let { name: commentTitle, body: commentBody } = comments;
   return (
     <div className="flex flex-col items-center justify-center">
@@ -26,10 +26,11 @@ export default function PostID() {
         <aside>
           <hr className="my-4 border border-solid border-black" />
           Comments
-          {comments.map(({ title, body }) => (
-            <div className="bg-slate-300 rounded p-2 m-2">
-              <p className="text-3xl">{title}</p>
+          {comments.map(({ name, body }, i) => (
+            <div key={i} className="bg-slate-300 rounded p-2 m-2">
+              <p className="text-3xl">{name}</p>
               <p className="text-xl">{body}</p>
+              <p className="text-xl pt-4">by username (email)</p>
             </div>
           ))}
         </aside>
