@@ -7,10 +7,14 @@ export type Path =
   | `/`
   | `/home`
   | `/post`
+  | `/post/:postID`
   | `/profile`
+  | `/profile/:userID`
+  | `/route`
 
 export type Params = {
-  
+  '/post/:postID': { postID: string }
+  '/profile/:userID': { userID: string }
 }
 
 export type ModalPath = never
