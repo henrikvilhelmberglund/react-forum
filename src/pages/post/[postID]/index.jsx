@@ -9,7 +9,7 @@ import axios from "axios";
 
 export default function PostID() {
   const data = useOutletContext();
-  const userData = useLoaderData();
+  const { userData, commentsData } = useLoaderData();
   const params = useParams();
   const navigation = useNavigation();
 
@@ -51,7 +51,7 @@ export default function PostID() {
         <aside>
           <hr className="my-4 border border-solid border-black" />
           Comments
-          {comments.map(({ name, body }, i) => (
+          {commentsData.map(({ name, body }, i) => (
             <div key={i} className="bg-slate-300 rounded p-2 m-2">
               <p className="text-3xl">{name}</p>
               <p className="text-xl">{body}</p>
@@ -80,5 +80,5 @@ export const Loader = async ({ params }) => {
     `https://jsonplaceholder.typicode.com/posts/${params.postID}/comments/`
   );
   let commentsData = await commentsRes.data;
-  return commentsData;
+  return { userData, commentsData };
 };
