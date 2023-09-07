@@ -6,8 +6,14 @@ export default function Home() {
 
   return (
     <>
-      <div>
-        <h2 className="text-center">This is /home</h2>
+      <div className="flex flex-col items-center">
+        <h2 className="text-center mb-2">This is /home</h2>
+        <Link
+          className="bg-gray-500 hover:bg-gray-700 text-white font-semibold py-2 px-2 rounded"
+          to={"/"}
+        >
+          Go Back
+        </Link>
       </div>
       <div className="flex justify-center">
         <div>
@@ -17,7 +23,6 @@ export default function Home() {
               key={post.id}
             >
               <h2>
-                {console.log(post)}
                 <span className="font-bold text-lg">Title: </span>
                 <Link
                   className="text-black hover:text-blue-700 underline"
