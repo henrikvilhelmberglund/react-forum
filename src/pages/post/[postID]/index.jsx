@@ -55,16 +55,15 @@ export default function PostID() {
           Comments
           {commentsData.map(({ name, body, id }, i) => {
             {
-              // const { name: commentsUsername, email: commentsEmail } =
-              //   usersData.find((user) => user.id === id);
-              // console.log(commentsUsername);
+              const { name: commentsUsername, email: commentsEmail } =
+                usersData.find((user) => user.id === id);
               return (
                 <div key={i} className="bg-slate-300 rounded p-2 m-2">
                   <p className="text-3xl">{name}</p>
                   <p className="text-xl">{body}</p>
                   <p className="text-xl pt-4">
-                    {/* by {commentsUsername} ({commentsEmail}) */}
-                    by username (email)
+                    by {commentsUsername} ({commentsEmail})
+                    {/* by username (email) */}
                   </p>
                 </div>
               );
