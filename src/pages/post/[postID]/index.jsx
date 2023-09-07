@@ -8,8 +8,10 @@ import {
 import axios from "axios";
 
 export default function PostID() {
-  const data = useOutletContext();
+  const { usersData, postsData } = useOutletContext();
   const { userData, commentsData } = useLoaderData();
+  console.log("HELLO", usersData);
+  console.log("COMMENTS", commentsData);
   const params = useParams();
   const navigation = useNavigation();
 
@@ -26,7 +28,7 @@ export default function PostID() {
   }
 
   let postId = parseInt(params.postID);
-  const { title, body, userId } = data.find((post) => post.id === postId);
+  const { title, body, userId } = postsData.find((post) => post.id === postId);
   const username = userData.username;
 
   return (
@@ -51,13 +53,23 @@ export default function PostID() {
         <aside>
           <hr className="my-4 border border-solid border-black" />
           Comments
-          {commentsData.map(({ name, body }, i) => (
-            <div key={i} className="bg-slate-300 rounded p-2 m-2">
-              <p className="text-3xl">{name}</p>
-              <p className="text-xl">{body}</p>
-              <p className="text-xl pt-4">by username (email)</p>
-            </div>
-          ))}
+          {commentsData.map(({ name, body, id }, i) => {
+            {
+              // const { name: commentsUsername, email: commentsEmail } =
+              //   usersData.find((user) => user.id === id);
+              // console.log(commentsUsername);
+              return (
+                <div key={i} className="bg-slate-300 rounded p-2 m-2">
+                  <p className="text-3xl">{name}</p>
+                  <p className="text-xl">{body}</p>
+                  <p className="text-xl pt-4">
+                    {/* by {commentsUsername} ({commentsEmail}) */}
+                    by username (email)
+                  </p>
+                </div>
+              );
+            }
+          })}
         </aside>
       </div>
     </div>
