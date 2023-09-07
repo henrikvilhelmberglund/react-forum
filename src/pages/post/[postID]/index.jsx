@@ -10,8 +10,7 @@ export default function PostID() {
       <div className="mb-8">
         <Link
           className="bg-gray-500 hover:bg-gray-700 text-white font-semibold py-2 px-2 rounded"
-          to={"/"}
-        >
+          to={"/"}>
           Go Back
         </Link>
       </div>
@@ -19,7 +18,7 @@ export default function PostID() {
         <h1 className="text-3xl">{title}</h1>
         <p className="pt-4 text-lg">{body}</p>
         <div className="w-full flex justify-center">
-          <Link className="bg-blue-300 p-2 rounded" to={`/user/${userId}`}>
+          <Link className="bg-blue-300 p-2 rounded" to={`/profile/${userId}`}>
             User: {username} (id {userId})
           </Link>
         </div>
@@ -36,7 +35,9 @@ export const Loader = async ({ params }) => {
   );
   let postData = await response.json();
 
-  response = await fetch(`https://jsonplaceholder.typicode.com/users/${postData.userId}`);
+  response = await fetch(
+    `https://jsonplaceholder.typicode.com/users/${postData.userId}`
+  );
   let userData = await response.json();
   console.log(postData);
   console.log(userData);
