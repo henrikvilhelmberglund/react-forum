@@ -8,8 +8,8 @@ import {
 import axios from "axios";
 
 export default function PostID() {
-  const { postsData } = useOutletContext();
-  const { userData, commentsData } = useLoaderData();
+  const { postsData, usersData } = useOutletContext();
+  const { commentsData } = useLoaderData();
 
   console.log("COMMENTS", commentsData);
   const params = useParams();
@@ -29,7 +29,7 @@ export default function PostID() {
 
   let postId = parseInt(params.postID);
   const { title, body, userId } = postsData.find((post) => post.id === postId);
-  const username = userData.username;
+  const { username } = usersData.find((user) => user.id === userId);
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -69,7 +69,6 @@ export default function PostID() {
                       </a>
                     </span>
                   </p>
-                  {/* by username (email) */}
                 </div>
               );
             }
@@ -83,18 +82,9 @@ export default function PostID() {
 
 export const Loader = async ({ params }) => {
   console.log("Entered post id route");
-  let postRes = await axios.get(
-    `https://jsonplaceholder.typicode.com/posts/${params.postID}`
-  );
-  let postData = postRes.data;
-
-  const userRes = await axios.get(
-    `https://jsonplaceholder.typicode.com/users/${postData.userId}`
-  );
-  let userData = userRes.data;
   let commentsRes = await axios.get(
     `https://jsonplaceholder.typicode.com/posts/${params.postID}/comments/`
   );
   let commentsData = await commentsRes.data;
-  return { userData, commentsData };
+  return { commentsData };
 };

@@ -8,7 +8,9 @@ export default function Layout() {
   if (navigation.state === "loading") {
     return (
       <div className="flex flex-col items-center justify-center m-10">
-        <h1 className="flex items-center justify-center text-5xl mb-8">React - Forum</h1>
+        <h1 className="flex items-center justify-center text-5xl mb-8">
+          React - Forum
+        </h1>
         <hr />
         <img
           src="https://i.gifer.com/ZKZg.gif"
@@ -21,7 +23,9 @@ export default function Layout() {
   return (
     <>
       <div className="flex flex-col p-10">
-        <h1 className="flex items-center justify-center text-5xl mb-8">React - Forum</h1>
+        <h1 className="flex items-center justify-center text-5xl mb-8">
+          React - Forum
+        </h1>
         <hr />
         <Outlet context={data} />
       </div>
@@ -33,5 +37,7 @@ export const Loader = async () => {
   console.log("Entered route");
   let postsRes = await axios.get(`https://jsonplaceholder.typicode.com/posts`);
   let postsData = postsRes.data;
-  return { postsData } ;
+  let usersRes = await axios.get(`https://jsonplaceholder.typicode.com/users/`);
+  let usersData = usersRes.data;
+  return { postsData, usersData };
 };
