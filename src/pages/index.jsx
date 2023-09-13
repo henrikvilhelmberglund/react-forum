@@ -1,16 +1,8 @@
-import { Link, useOutletContext, useNavigation } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 
 export default function Root() {
   const data = useOutletContext();
-  const navigation = useNavigation();
 
-  if (navigation.state === "loading") {
-    return (
-      <div className="w-screen h-screen flex justify-center items-center">
-        <img className="w-12 h-12" src="https://i.gifer.com/ZKZg.gif" alt="loading gif" />
-      </div>
-    );
-  }
   return (
     <>
       <div className="flex flex-col items-center">

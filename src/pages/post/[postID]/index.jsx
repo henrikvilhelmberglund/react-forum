@@ -1,29 +1,16 @@
 import { Link } from "react-router-dom";
-import {
-  useOutletContext,
-  useParams,
-  useLoaderData,
-  useNavigation,
-} from "react-router-dom";
+import { useOutletContext, useParams, useLoaderData } from "react-router-dom";
 import axios from "axios";
 
 export default function PostID() {
   const data = useOutletContext();
   const userData = useLoaderData();
   const params = useParams();
-  const navigation = useNavigation();
-
-  if (navigation.state === "loading") {
-    return (
-      <div className="w-screen h-screen flex justify-center items-center">
-        <img className="w-12 h-12" src="https://i.gifer.com/ZKZg.gif" alt="loading gif" />
-      </div>
-    );
-  }
 
   let postId = parseInt(params.postID);
   const { title, body, userId } = data.find((post) => post.id === postId);
   const username = userData.username;
+  const link = `/post/${postId}`;
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -42,6 +29,7 @@ export default function PostID() {
           <Link
             className="bg-blue-300 hover:bg-blue-400 p-2 rounded m-4"
             to={`/profile/${userId}`}
+            state={link}
           >
             User: {username} (id {userId})
           </Link>
@@ -49,12 +37,12 @@ export default function PostID() {
         <aside>
           <hr className="my-4 border border-solid border-black" />
           Comments
-          {comments.map(({ title, body }) => (
+          {/* {comments.map(({ title, body }) => (
             <div className="bg-slate-300 rounded p-2 m-2">
               <p className="text-3xl">{title}</p>
               <p className="text-xl">{body}</p>
             </div>
-          ))}
+          ))} */}
         </aside>
       </div>
     </div>
@@ -63,7 +51,6 @@ export default function PostID() {
 }
 
 export const Loader = async ({ params }) => {
-  console.log("Entered post id route");
   let postRes = await axios.get(
     `https://jsonplaceholder.typicode.com/posts/${params.postID}`
   );
